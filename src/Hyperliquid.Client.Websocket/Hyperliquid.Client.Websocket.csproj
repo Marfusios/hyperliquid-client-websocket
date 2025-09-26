@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.1;net6;net7;net8</TargetFrameworks>
+		<PackageId>Hyperliquid.Client.Websocket</PackageId>
+		<Authors>Mariusz Kotas</Authors>
+		<Description>Client for Hyperliquid websocket API</Description>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<PackageReleaseNotes>Enhancements</PackageReleaseNotes>
+		<Copyright>Copyright 2025 Mariusz Kotas. All rights reserved.</Copyright>
+		<PackageTags>Hyperliquid websockets websocket client cryptocurrency exchange bitcoin</PackageTags>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/Marfusios/hyperliquid-client-websocket</PackageProjectUrl>
+		<PackageIconUrl>https://pbs.twimg.com/profile_images/1646991609416806408/vKLEZxhh_400x400.png</PackageIconUrl>
+		<PackageIcon>icon.png</PackageIcon>
+		<RepositoryUrl>https://github.com/Marfusios/hyperliquid-client-websocket</RepositoryUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryType>Git</RepositoryType>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+		<PackageReference Include="System.Reactive" Version="6.0.2" />
+		<PackageReference Include="Websocket.Client" Version="5.3.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="icon.png" Pack="true" PackagePath="" />
+		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
+	</ItemGroup>
+
+</Project>
