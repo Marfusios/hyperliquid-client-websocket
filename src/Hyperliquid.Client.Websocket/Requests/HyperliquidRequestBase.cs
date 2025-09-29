@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace Hyperliquid.Client.Websocket.Requests.Hyperliquid
+namespace Hyperliquid.Client.Websocket.Requests
 {
     /// <summary>
     /// Base class for every Hyperliquid request

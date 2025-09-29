@@ -3,38 +3,13 @@ using System.Diagnostics;
 using Hyperliquid.Client.Websocket.Json;
 using Newtonsoft.Json;
 
-namespace Hyperliquid.Client.Websocket.Responses.Hyperliquid
+namespace Hyperliquid.Client.Websocket.Responses.Books
 {
-    /// <summary>
-    /// Level in the order book
-    /// </summary>
-    [DebuggerDisplay("Level {Price}/{Size} ({NumberOfOrders})")]
-    public class WsLevel
-    {
-        /// <summary>
-        /// Price
-        /// </summary>
-        [JsonProperty("px")]
-        public double Price { get; set; }
-
-        /// <summary>
-        /// Size
-        /// </summary>
-        [JsonProperty("sz")]
-        public double Size { get; set; }
-
-        /// <summary>
-        /// Number of orders
-        /// </summary>
-        [JsonProperty("n")]
-        public int NumberOfOrders { get; set; }
-    }
-
     /// <summary>
     /// Order book response
     /// </summary>
     [DebuggerDisplay("Book Response {Coin} {Levels[0].Length} | {Levels[1].Length}")]
-    public class WsBookResponse
+    public class BookResponse
     {
         /// <summary>
         /// Coin symbol
@@ -46,7 +21,7 @@ namespace Hyperliquid.Client.Websocket.Responses.Hyperliquid
         /// Order book levels [bids, asks]
         /// </summary>
         [JsonProperty("levels")]
-        public WsLevel[][] Levels { get; set; } = new WsLevel[2][];
+        public Level[][] Levels { get; set; } = new Level[2][];
 
         /// <summary>
         /// Timestamp

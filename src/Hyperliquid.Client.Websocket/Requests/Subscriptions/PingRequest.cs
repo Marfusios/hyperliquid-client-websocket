@@ -1,4 +1,4 @@
-namespace Hyperliquid.Client.Websocket.Requests.Hyperliquid.Subscriptions
+namespace Hyperliquid.Client.Websocket.Requests.Subscriptions
 {
     /// <summary>
     /// Subscribe to all mid prices

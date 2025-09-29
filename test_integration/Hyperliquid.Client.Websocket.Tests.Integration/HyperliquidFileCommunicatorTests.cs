@@ -4,7 +4,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Hyperliquid.Client.Websocket.Client;
 using Hyperliquid.Client.Websocket.Files;
-using Hyperliquid.Client.Websocket.Responses.Hyperliquid;
+using Hyperliquid.Client.Websocket.Responses;
 using Xunit;
 
 namespace Hyperliquid.Client.Websocket.Tests.Integration
@@ -28,7 +28,7 @@ namespace Hyperliquid.Client.Websocket.Tests.Integration
                 Skip.If(!exist, $"The file '{file}' doesn't exist. Don't forget to decompress gzip file!");
             }
 
-            var trades = new List<WsTradeResponse>();
+            var trades = new List<TradeResponse>();
 
             var communicator = new HyperliquidFileCommunicator();
             communicator.FileNames = files;

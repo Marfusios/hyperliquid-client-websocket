@@ -1,37 +1,14 @@
-using Newtonsoft.Json;
 using System;
 using Hyperliquid.Client.Websocket.Json;
+using Hyperliquid.Client.Websocket.Enums;
+using Newtonsoft.Json;
 
-namespace Hyperliquid.Client.Websocket.Responses.Hyperliquid
+namespace Hyperliquid.Client.Websocket.Responses.Fills
 {
-    /// <summary>
-    /// Fill liquidation information
-    /// </summary>
-    public class FillLiquidation
-    {
-        /// <summary>
-        /// Liquidated user
-        /// </summary>
-        [JsonProperty("liquidatedUser")]
-        public string? LiquidatedUser { get; set; }
-
-        /// <summary>
-        /// Mark price
-        /// </summary>
-        [JsonProperty("markPx")]
-        public double MarkPrice { get; set; }
-
-        /// <summary>
-        /// Liquidation method
-        /// </summary>
-        [JsonProperty("method")]
-        public string Method { get; set; } = string.Empty;
-    }
-
     /// <summary>
     /// Fill information
     /// </summary>
-    public class WsFill
+    public class Fill
     {
         /// <summary>
         /// Coin symbol
@@ -55,7 +32,8 @@ namespace Hyperliquid.Client.Websocket.Responses.Hyperliquid
         /// Side (buy/sell)
         /// </summary>
         [JsonProperty("side")]
-        public string Side { get; set; } = string.Empty;
+        [JsonConverter(typeof(SideConverter))]
+        public Side Side { get; set; }
 
         /// <summary>
         /// Timestamp
@@ -68,7 +46,7 @@ namespace Hyperliquid.Client.Websocket.Responses.Hyperliquid
         /// Start position
         /// </summary>
         [JsonProperty("startPosition")]
-        public string StartPosition { get; set; } = string.Empty;
+        public double StartPosition { get; set; }
 
         /// <summary>
         /// Direction
@@ -129,29 +107,5 @@ namespace Hyperliquid.Client.Websocket.Responses.Hyperliquid
         /// </summary>
         [JsonProperty("builderFee")]
         public string? BuilderFee { get; set; }
-    }
-
-    /// <summary>
-    /// User fills response
-    /// </summary>
-    public class WsUserFillsResponse
-    {
-        /// <summary>
-        /// Whether this is a snapshot
-        /// </summary>
-        [JsonProperty("isSnapshot")]
-        public bool? IsSnapshot { get; set; }
-
-        /// <summary>
-        /// User address
-        /// </summary>
-        [JsonProperty("user")]
-        public string User { get; set; } = string.Empty;
-
-        /// <summary>
-        /// Array of fills
-        /// </summary>
-        [JsonProperty("fills")]
-        public WsFill[] Fills { get; set; } = Array.Empty<WsFill>();
     }
 }

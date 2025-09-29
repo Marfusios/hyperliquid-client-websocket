@@ -1,24 +1,23 @@
-using Hyperliquid.Client.Websocket.Requests.Hyperliquid;
 using Hyperliquid.Client.Websocket.Validations;
 
-namespace Hyperliquid.Client.Websocket.Requests.Hyperliquid.Subscriptions
+namespace Hyperliquid.Client.Websocket.Requests.Subscriptions
 {
     /// <summary>
-    /// Subscribe to notifications for a specific user
+    /// Subscribe to order updates for a specific user
     /// </summary>
-    public class NotificationSubscribeRequest : HyperliquidRequestBase
+    public class UserOrderUpdatesSubscribeRequest : HyperliquidRequestBase
     {
         /// <summary>
-        /// Initialize request for notification subscription
+        /// Initialize request for order updates subscription
         /// </summary>
         /// <param name="user">User address</param>
-        public NotificationSubscribeRequest(string user)
+        public UserOrderUpdatesSubscribeRequest(string user)
         {
             HlValidations.ValidateInput(user, nameof(user));
-            
+
             _subscription = new
             {
-                type = "notification",
+                type = "orderUpdates",
                 user = user
             };
         }

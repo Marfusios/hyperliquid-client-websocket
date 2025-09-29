@@ -2,8 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Hyperliquid.Client.Websocket.Client;
-using Hyperliquid.Client.Websocket.Requests.Hyperliquid.Subscriptions;
-using Hyperliquid.Client.Websocket.Responses.Hyperliquid;
+using Hyperliquid.Client.Websocket.Requests.Subscriptions;
+using Hyperliquid.Client.Websocket.Responses;
 using Hyperliquid.Client.Websocket.Websockets;
 using Xunit;
 

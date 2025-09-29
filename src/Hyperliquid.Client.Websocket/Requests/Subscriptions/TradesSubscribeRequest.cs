@@ -1,17 +1,17 @@
 using Hyperliquid.Client.Websocket.Validations;
 
-namespace Hyperliquid.Client.Websocket.Requests.Hyperliquid.Subscriptions
+namespace Hyperliquid.Client.Websocket.Requests.Subscriptions
 {
     /// <summary>
     /// Subscribe to trades for a specific coin
     /// </summary>
-    public class HyperliquidTradesSubscribeRequest : HyperliquidRequestBase
+    public class TradesSubscribeRequest : HyperliquidRequestBase
     {
         /// <summary>
         /// Initialize request for trades subscription
         /// </summary>
         /// <param name="coin">Coin symbol</param>
-        public HyperliquidTradesSubscribeRequest(string coin)
+        public TradesSubscribeRequest(string coin)
         {
             HlValidations.ValidateInput(coin, nameof(coin));
 

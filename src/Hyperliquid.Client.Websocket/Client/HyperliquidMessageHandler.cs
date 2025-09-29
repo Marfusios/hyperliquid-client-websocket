@@ -1,7 +1,10 @@
 using System;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
-using Hyperliquid.Client.Websocket.Responses.Hyperliquid;
+using Hyperliquid.Client.Websocket.Responses;
+using Hyperliquid.Client.Websocket.Responses.Books;
+using Hyperliquid.Client.Websocket.Responses.Orders;
+using Hyperliquid.Client.Websocket.Responses.Fills;
 
 namespace Hyperliquid.Client.Websocket.Client
 {
@@ -127,10 +130,10 @@ namespace Hyperliquid.Client.Websocket.Client
         {
             try
             {
-                var response = data.ToObject<HyperliquidNotificationResponse>();
+                var response = data.ToObject<UserNotificationResponse>();
                 if (response != null)
                 {
-                    _streams.NotificationSubject.OnNext(response);
+                    _streams.UserNotificationSubject.OnNext(response);
                 }
             }
             catch (Exception e)
@@ -143,7 +146,7 @@ namespace Hyperliquid.Client.Websocket.Client
         {
             try
             {
-                var response = data.ToObject<WsBookResponse>();
+                var response = data.ToObject<BookResponse>();
                 if (response != null)
                 {
                     _streams.L2BookSubject.OnNext(response);
@@ -159,7 +162,7 @@ namespace Hyperliquid.Client.Websocket.Client
         {
             try
             {
-                var response = data.ToObject<WsTradeResponse[]>();
+                var response = data.ToObject<TradeResponse[]>();
                 if (response != null)
                 {
                     _streams.TradesSubject.OnNext(response);
@@ -175,10 +178,10 @@ namespace Hyperliquid.Client.Websocket.Client
         {
             try
             {
-                var response = data.ToObject<WsOrderResponse[]>();
+                var response = data.ToObject<UserOrderResponse[]>();
                 if (response != null)
                 {
-                    _streams.OrderUpdatesSubject.OnNext(response);
+                    _streams.UserOrderUpdatesSubject.OnNext(response);
                 }
             }
             catch (Exception e)
@@ -191,7 +194,7 @@ namespace Hyperliquid.Client.Websocket.Client
         {
             try
             {
-                var response = data.ToObject<WsUserFillsResponse>();
+                var response = data.ToObject<UserFillsResponse>();
                 if (response != null)
                 {
                     _streams.UserFillsSubject.OnNext(response);

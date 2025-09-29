@@ -1,5 +1,4 @@
 ﻿using Hyperliquid.Client.Websocket.Client;
-using Hyperliquid.Client.Websocket.Requests.Hyperliquid.Subscriptions;
 using Hyperliquid.Client.Websocket.Websockets;
 using Microsoft.Extensions.Logging;
 using Serilog;
@@ -11,6 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 using System.Threading;
+using Hyperliquid.Client.Websocket.Requests.Subscriptions;
 
 namespace Hyperliquid.Client.Websocket.Sample
 {
@@ -18,8 +18,8 @@ namespace Hyperliquid.Client.Websocket.Sample
     {
         private static readonly ManualResetEvent _exitEvent = new(false);
 
-        //private const string UserAddress = "0x0366477c01Ef7362E8bC0C2d33Df5B3a0A6342b9";
-        private const string UserAddress = "0x1234567890123456789012345678901234567890"; // Replace with actual user address
+        private const string UserAddress = "0x0366477c01Ef7362E8bC0C2d33Df5B3a0A6342b9";
+        //private const string UserAddress = "0x1234567890123456789012345678901234567890"; // Replace with actual user address
 
         static void Main(string[] args)
         {
@@ -71,19 +71,19 @@ namespace Hyperliquid.Client.Websocket.Sample
             Log.Information("Sending Hyperliquid subscription requests...");
 
             // Subscribe to all mids
-            client.Send(new AllMidsSubscribeRequest());
+            //client.Send(new AllMidsSubscribeRequest());
 
             // Subscribe to L2 book for BTC
             client.Send(new L2BookSubscribeRequest("BTC"));
 
             // Subscribe to trades for BTC
-            client.Send(new HyperliquidTradesSubscribeRequest("BTC"));
+            //client.Send(new HyperliquidTradesSubscribeRequest("BTC"));
 
             // Subscribe to notifications (requires user address)
             if (!string.IsNullOrEmpty(UserAddress) && UserAddress != "0x1234567890123456789012345678901234567890")
             {
-                client.Send(new NotificationSubscribeRequest(UserAddress));
-                client.Send(new OrderUpdatesSubscribeRequest(UserAddress));
+                client.Send(new UserNotificationSubscribeRequest(UserAddress));
+                client.Send(new UserOrderUpdatesSubscribeRequest(UserAddress));
                 client.Send(new UserFillsSubscribeRequest(UserAddress));
             }
         }
@@ -93,7 +93,7 @@ namespace Hyperliquid.Client.Websocket.Sample
             Log.Information("Setting up Hyperliquid stream subscriptions...");
 
             client.Streams.SubscriptionResponseStream.Subscribe(response =>
-                Log.Information("Subscription response: {channel}", response.Channel));
+                Log.Information("Subscription response: {subscription}", response.SubscriptionString));
 
             client.Streams.AllMidsStream.Subscribe(mids =>
             {
@@ -101,7 +101,7 @@ namespace Hyperliquid.Client.Websocket.Sample
                 Log.Information("All mids received: {count} pairs. BTC: {btcPrice}", midsCount, mids.MidPrices["BTC"]);
             });
 
-            client.Streams.NotificationStream.Subscribe(notification =>
+            client.Streams.UserNotificationStream.Subscribe(notification =>
                 Log.Information("Notification: {message}", notification.Notification));
 
             client.Streams.L2BookStream.Subscribe(book =>
@@ -122,13 +122,13 @@ namespace Hyperliquid.Client.Websocket.Sample
                 }
             });
 
-            client.Streams.OrderUpdatesStream.Subscribe(orders =>
+            client.Streams.UserOrderUpdatesStream.Subscribe(orders =>
             {
                 Log.Information("Order updates received: {count} orders", orders?.Length ?? 0);
                 foreach (var order in orders ?? [])
                 {
-                    Log.Information("  Order {coin}: {side} {size} @ {price} - Status: {status}",
-                        order.Order.Coin, order.Order.Side, order.Order.Size, order.Order.LimitPrice, order.Status);
+                    Log.Information("  Order {coin}: {side} {size} @ {price} - Status: {status}, Time: {time}",
+                        order.Order.Coin, order.Order.Side, order.Order.Size, order.Order.LimitPrice, order.Status, order.StatusTimestamp.ToString("HH:mm:ss.fff"));
                 }
             });
 
@@ -136,11 +136,11 @@ namespace Hyperliquid.Client.Websocket.Sample
             {
                 var isSnapshot = fills.IsSnapshot == true ? " (snapshot)" : "";
                 Log.Information("User fills received{snapshot}: {count} fills for user {user}",
-                    isSnapshot, fills.Fills?.Length ?? 0, fills.User);
-                foreach (var fill in fills.Fills?.Take(3) ?? [])
+                    isSnapshot, fills.Fills.Length, fills.User);
+                foreach (var fill in fills.Fills.Reverse().Take(10))
                 {
-                    Log.Information("  Fill {coin}: {side} {size} @ {price} - Fee: {fee}",
-                        fill.Coin, fill.Side, fill.Size, fill.Price, fill.Fee);
+                    Log.Information("  Fill {coin}: {side} {size} @ {price} - Fee: {fee}, Time: {time}",
+                        fill.Coin, fill.Side, fill.Size, fill.Price, fill.Fee, fill.Time);
                 }
             });
         }

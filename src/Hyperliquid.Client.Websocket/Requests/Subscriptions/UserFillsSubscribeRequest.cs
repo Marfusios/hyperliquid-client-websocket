@@ -1,7 +1,6 @@
-using Hyperliquid.Client.Websocket.Requests.Hyperliquid;
 using Hyperliquid.Client.Websocket.Validations;
 
-namespace Hyperliquid.Client.Websocket.Requests.Hyperliquid.Subscriptions
+namespace Hyperliquid.Client.Websocket.Requests.Subscriptions
 {
     /// <summary>
     /// Subscribe to user fills for a specific user

@@ -1,11 +1,11 @@
 using Newtonsoft.Json;
 
-namespace Hyperliquid.Client.Websocket.Responses.Hyperliquid
+namespace Hyperliquid.Client.Websocket.Responses
 {
     /// <summary>
     /// Notification response
     /// </summary>
-    public class HyperliquidNotificationResponse
+    public class UserNotificationResponse
     {
         /// <summary>
         /// Notification message

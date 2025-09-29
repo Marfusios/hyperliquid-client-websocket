@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace Hyperliquid.Client.Websocket.Requests.Hyperliquid
+namespace Hyperliquid.Client.Websocket.Requests
 {
     /// <summary>
     /// Unsubscribe from a specific data feed

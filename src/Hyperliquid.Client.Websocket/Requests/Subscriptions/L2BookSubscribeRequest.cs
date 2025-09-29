@@ -1,6 +1,6 @@
 using Hyperliquid.Client.Websocket.Validations;
 
-namespace Hyperliquid.Client.Websocket.Requests.Hyperliquid.Subscriptions
+namespace Hyperliquid.Client.Websocket.Requests.Subscriptions
 {
     /// <summary>
     /// Subscribe to L2 order book data for a specific coin

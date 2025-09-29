@@ -1,13 +1,14 @@
 using Newtonsoft.Json;
 using System;
 using Hyperliquid.Client.Websocket.Json;
+using Hyperliquid.Client.Websocket.Enums;
 
-namespace Hyperliquid.Client.Websocket.Responses.Hyperliquid
+namespace Hyperliquid.Client.Websocket.Responses
 {
     /// <summary>
     /// Trade data
     /// </summary>
-    public class WsTradeResponse
+    public class TradeResponse
     {
         /// <summary>
         /// Coin symbol
@@ -19,7 +20,8 @@ namespace Hyperliquid.Client.Websocket.Responses.Hyperliquid
         /// Side (buy/sell)
         /// </summary>
         [JsonProperty("side")]
-        public string Side { get; set; } = string.Empty;
+        [JsonConverter(typeof(SideConverter))]
+        public Side Side { get; set; }
 
         /// <summary>
         /// Price

@@ -1,6 +1,9 @@
 using System;
 using System.Reactive.Subjects;
-using Hyperliquid.Client.Websocket.Responses.Hyperliquid;
+using Hyperliquid.Client.Websocket.Responses;
+using Hyperliquid.Client.Websocket.Responses.Books;
+using Hyperliquid.Client.Websocket.Responses.Fills;
+using Hyperliquid.Client.Websocket.Responses.Orders;
 
 namespace Hyperliquid.Client.Websocket.Client
 {
@@ -12,11 +15,13 @@ namespace Hyperliquid.Client.Websocket.Client
     {
         internal readonly Subject<PongResponse> PongSubject = new Subject<PongResponse>();
         internal readonly Subject<AllMidsResponse> AllMidsSubject = new Subject<AllMidsResponse>();
-        internal readonly Subject<HyperliquidNotificationResponse> NotificationSubject = new Subject<HyperliquidNotificationResponse>();
-        internal readonly Subject<WsBookResponse> L2BookSubject = new Subject<WsBookResponse>();
-        internal readonly Subject<WsTradeResponse[]> TradesSubject = new Subject<WsTradeResponse[]>();
-        internal readonly Subject<WsOrderResponse[]> OrderUpdatesSubject = new Subject<WsOrderResponse[]>();
-        internal readonly Subject<WsUserFillsResponse> UserFillsSubject = new Subject<WsUserFillsResponse>();
+        internal readonly Subject<BookResponse> L2BookSubject = new Subject<BookResponse>();
+        internal readonly Subject<TradeResponse[]> TradesSubject = new Subject<TradeResponse[]>();
+
+        internal readonly Subject<UserNotificationResponse> UserNotificationSubject = new Subject<UserNotificationResponse>();
+        internal readonly Subject<UserOrderResponse[]> UserOrderUpdatesSubject = new Subject<UserOrderResponse[]>();
+        internal readonly Subject<UserFillsResponse> UserFillsSubject = new Subject<UserFillsResponse>();
+
         internal readonly Subject<SubscriptionResponseData> SubscriptionResponseSubject = new Subject<SubscriptionResponseData>();
 
         /// <summary>
@@ -30,29 +35,29 @@ namespace Hyperliquid.Client.Websocket.Client
         public IObservable<AllMidsResponse> AllMidsStream => AllMidsSubject;
 
         /// <summary>
-        /// Notification stream for subscribed user
-        /// </summary>
-        public IObservable<HyperliquidNotificationResponse> NotificationStream => NotificationSubject;
-
-        /// <summary>
         /// L2 order book stream for subscribed coin
         /// </summary>
-        public IObservable<WsBookResponse> L2BookStream => L2BookSubject;
+        public IObservable<BookResponse> L2BookStream => L2BookSubject;
 
         /// <summary>
         /// Trades stream for subscribed coin
         /// </summary>
-        public IObservable<WsTradeResponse[]> TradesStream => TradesSubject;
+        public IObservable<TradeResponse[]> TradesStream => TradesSubject;
+
+        /// <summary>
+        /// Notification stream for subscribed user
+        /// </summary>
+        public IObservable<UserNotificationResponse> UserNotificationStream => UserNotificationSubject;
 
         /// <summary>
         /// Order updates stream for subscribed user
         /// </summary>
-        public IObservable<WsOrderResponse[]> OrderUpdatesStream => OrderUpdatesSubject;
+        public IObservable<UserOrderResponse[]> UserOrderUpdatesStream => UserOrderUpdatesSubject;
 
         /// <summary>
         /// User fills stream for subscribed user
         /// </summary>
-        public IObservable<WsUserFillsResponse> UserFillsStream => UserFillsSubject;
+        public IObservable<UserFillsResponse> UserFillsStream => UserFillsSubject;
 
         /// <summary>
         /// Subscription response stream

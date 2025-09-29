@@ -1,13 +1,14 @@
-using Newtonsoft.Json;
 using System;
 using Hyperliquid.Client.Websocket.Json;
+using Hyperliquid.Client.Websocket.Enums;
+using Newtonsoft.Json;
 
-namespace Hyperliquid.Client.Websocket.Responses.Hyperliquid
+namespace Hyperliquid.Client.Websocket.Responses.Orders
 {
     /// <summary>
     /// Basic order information
     /// </summary>
-    public class WsBasicOrder
+    public class BasicOrder
     {
         /// <summary>
         /// Coin symbol
@@ -19,7 +20,8 @@ namespace Hyperliquid.Client.Websocket.Responses.Hyperliquid
         /// Side (buy/sell)
         /// </summary>
         [JsonProperty("side")]
-        public string Side { get; set; } = string.Empty;
+        [JsonConverter(typeof(SideConverter))]
+        public Side Side { get; set; } = Side.Unknown;
 
         /// <summary>
         /// Limit price
@@ -57,30 +59,5 @@ namespace Hyperliquid.Client.Websocket.Responses.Hyperliquid
         /// </summary>
         [JsonProperty("cloid")]
         public string? ClientOrderId { get; set; }
-    }
-
-    /// <summary>
-    /// Order update response
-    /// </summary>
-    public class WsOrderResponse
-    {
-        /// <summary>
-        /// Order information
-        /// </summary>
-        [JsonProperty("order")]
-        public WsBasicOrder Order { get; set; } = new WsBasicOrder();
-
-        /// <summary>
-        /// Order status
-        /// </summary>
-        [JsonProperty("status")]
-        public string Status { get; set; } = string.Empty;
-
-        /// <summary>
-        /// Status timestamp
-        /// </summary>
-        [JsonProperty("statusTimestamp")]
-        [JsonConverter(typeof(UnixMillisecondsDateTimeConverter))]
-        public DateTime StatusTimestamp { get; set; }
     }
 }

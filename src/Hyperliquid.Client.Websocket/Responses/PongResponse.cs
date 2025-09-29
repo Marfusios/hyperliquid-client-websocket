@@ -1,4 +1,4 @@
-namespace Hyperliquid.Client.Websocket.Responses.Hyperliquid
+namespace Hyperliquid.Client.Websocket.Responses
 {
     /// <summary>
     /// Pong response to ping
