@@ -26,31 +26,21 @@ https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/websocket
 
 ```csharp
 var exitEvent = new ManualResetEvent(false);
-var url = HyperliquidValues.ApiWebsocketUrl;
+var url = HyperliquidValues.MainnetWebsocketApiUrl;
 
-using (var communicator = new HyperliquidWebsocketCommunicator(url))
+using var communicator = new HyperliquidWebsocketCommunicator(url);
+using var client = new HyperliquidClient(communicator);
+
+client.Streams.PongStream.Subscribe(pong =>
 {
-    using (var client = new HyperliquidClient(communicator))
-    {
-        client.Streams.InfoStream.Subscribe(info =>
-        {
-            Log.Information($"Info received, reconnection happened, resubscribing to streams");
-            
-            await client.Send(new PingRequest() {Cid = 123456});
-            //await client.Send(new TickerSubscribeRequest("BTC/USD"));
-        });
+    Console.WriteLine($"Pong received!")
+    exitEvent.Set();
+});
 
-        client.Streams.PongStream.Subscribe(pong =>
-        {
-            Console.WriteLine($"Pong received! Id: {pong.Cid}") // Pong received! Id: 123456
-            exitEvent.Set();
-        });
+await communicator.Start();
 
-        await communicator.Start();
-
-        exitEvent.WaitOne(TimeSpan.FromSeconds(30));
-    }
-}
+client.Send(new PingRequest());
+exitEvent.WaitOne(TimeSpan.FromSeconds(30));
 ```
 
 More usage examples:
@@ -60,49 +50,35 @@ More usage examples:
 
 ### API coverage
 
-| PUBLIC                 |    Covered     |
-|------------------------|:--------------:|
-| Info                   |  ✔            |
-| Ping-Pong              |  ✔            |
-| Errors                 |  ✔            |
-| Configuration          |  ✔            |
-| Channel subscribing    |  ✔            |
-| Channel unsubscribing  |  ✔            |
-| Ticker                 |  ✔            |
-| Ticker - funding       |                |
-| Trades                 |  ✔            |
-| Trades - funding       |  ✔            |
-| Books                  |  ✔            |
-| Books - funding        |  ✔            |
-| Raw books              |  ✔            |
-| Raw books - funding    |  ✔            |
-| Candles                |  ✔            |
-| Funding                |  ✔            |
-| Sequencing             |  ✔            |
-| Server timestamp       |  ✔            |
-| Book checksum          |  ✔            |
+#### Public subscriptions
+These feeds do not require a user address.
 
-| AUTHENTICATED          |    Covered     |
-|------------------------|:--------------:|
-| Account info           |  ✔            |
-| Orders                 |  ✔            |
-| Positions              |  ✔            |
-| Trades                 |  ✔            |
-| Funding                |                |
-| Wallets                |  ✔            |
-| Balance                |  ✔            |
-| Notifications          |  ✔            |
+| PUBLIC SUBSCRIPTION | Covered |
+|---------------------|:-------:|
+| allMids             |   ✔     |
+| candle              |         |
+| l2Book              |   ✔     |
+| trades              |   ✔     |
+| activeAssetCtx      |         |
+| bbo                 |         |
 
-| AUTHENTICATED - INPUT  |    Covered     |
-|------------------------|:--------------:|
-| New order              |  ✔            |
-| Update order           |  ✔            |
-| Cancel order           |  ✔            |
-| Cancel order multi     |  ✔            |
-| Order multi-op         |                |
-| New offer              |                |
-| Cancel offer           |                |
-| Calc                   |  ✔            |
+#### User (authenticated) subscriptions
+These feeds require providing a user address (and sometimes additional parameters).
+
+| USER SUBSCRIPTION             | Covered |
+|------------------------------|:-------:|
+| notification                 |   ✔     |
+| webData2                     |         |
+| orderUpdates                 |   ✔     |
+| userEvents                   |         |
+| userFills                    |   ✔     |
+| userFundings                 |         |
+| userNonFundingLedgerUpdates  |         |
+| activeAssetData              |         |
+| userTwapSliceFills           |         |
+| userTwapHistory              |         |
+
+(✔ = implemented in this client)
 
 **Pull Requests are welcome!**
 

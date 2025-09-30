@@ -18,8 +18,7 @@ namespace Hyperliquid.Client.Websocket.Sample
     {
         private static readonly ManualResetEvent _exitEvent = new(false);
 
-        private const string UserAddress = "0x0366477c01Ef7362E8bC0C2d33Df5B3a0A6342b9";
-        //private const string UserAddress = "0x1234567890123456789012345678901234567890"; // Replace with actual user address
+        private const string UserAddress = "0x1234567890123456789012345678901234567890"; // Replace with actual user address
 
         static void Main(string[] args)
         {
@@ -71,13 +70,13 @@ namespace Hyperliquid.Client.Websocket.Sample
             Log.Information("Sending Hyperliquid subscription requests...");
 
             // Subscribe to all mids
-            //client.Send(new AllMidsSubscribeRequest());
+            client.Send(new AllMidsSubscribeRequest());
 
             // Subscribe to L2 book for BTC
             client.Send(new L2BookSubscribeRequest("BTC"));
 
             // Subscribe to trades for BTC
-            //client.Send(new HyperliquidTradesSubscribeRequest("BTC"));
+            client.Send(new TradesSubscribeRequest("BTC"));
 
             // Subscribe to notifications (requires user address)
             if (!string.IsNullOrEmpty(UserAddress) && UserAddress != "0x1234567890123456789012345678901234567890")
